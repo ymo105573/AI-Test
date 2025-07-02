@@ -17,7 +17,6 @@ jobs:
       - name: Detect test folders
         id: set-matrix
         run: |
-          # Detectar carpetas en tests/ y convertir en JSON array
           folders=$(find tests -mindepth 1 -maxdepth 1 -type d | sed 's/^/"/; s/$/"/' | paste -sd, -)
           echo "Detected folders JSON array: [$folders]"
           echo "folders=[$folders]" >> "$GITHUB_OUTPUT"
@@ -45,12 +44,19 @@ jobs:
 
       - name: Run Playwright tests in ${{ matrix.folder }}
         run: |
-          npx playwright test ${{ matrix.folder }}
-          folder_name=$(basename ${{ matrix.folder }})
-          mv playwright-report playwright-report-$folder_name || true
+          folder="${{ matrix.folder }}"
+          echo "Checking for test files in $folder..."
+          count=$(find "$folder" -type f \( -name "*.spec.ts" -o -name "*.spec.js" \) | wc -l)
+          echo "Found $count test files"
+          if [ "$count" -gt 0 ]; then
+            npx playwright test "$folder"
+            mv playwright-report "playwright-report-$(basename $folder)" || true
+          else
+            echo "⚠️ No test files found in $folder. Skipping tests."
+          fi
 
       - name: Upload report for ${{ matrix.folder }}
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: report-${{ matrix.folder }}
