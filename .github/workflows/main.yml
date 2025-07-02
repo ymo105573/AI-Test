@@ -1,0 +1,60 @@
+name: Playwright Tests by Dynamic Folder
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  detect-folders:
+    runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.set-matrix.outputs.folders }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect test folders
+        id: set-matrix
+        run: |
+          # Detectar carpetas dentro de tests/
+          folders=$(find tests -mindepth 1 -maxdepth 1 -type d | tr '\n' ',' | sed 's/,$//')
+          echo "Detected folders: $folders"
+          # Exportar la lista como salida para usar en el siguiente job
+          echo "::set-output name=folders::$folders"
+
+  run-tests:
+    needs: detect-folders
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        folder: [ ${{ fromJson('["' + needs.detect-folders.outputs.folders.replace(',', '","') + '"]') }} ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests in ${{ matrix.folder }}
+        run: |
+          npx playwright test ${{ matrix.folder }}
+          # Mover reporte para que no se sobrescriba
+          folder_name=$(basename ${{ matrix.folder }})
+          mv playwright-report playwright-report-$folder_name || true
+
+      - name: Upload report for ${{ matrix.folder }}
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ matrix.folder }}
+          path: playwright-report-${{ matrix.folder }}
+          retention-days: 30
