@@ -17,11 +17,10 @@ jobs:
       - name: Detect test folders
         id: set-matrix
         run: |
-          # Detectar carpetas dentro de tests/
-          folders=$(find tests -mindepth 1 -maxdepth 1 -type d | tr '\n' ',' | sed 's/,$//')
-          echo "Detected folders: $folders"
-          # Exportar la lista como salida para usar en el siguiente job
-          echo "::set-output name=folders::$folders"
+          # Encuentra carpetas en tests/ y genera JSON válido
+          folders=$(find tests -mindepth 1 -maxdepth 1 -type d | sed 's/^/"/; s/$/"/' | paste -sd, -)
+          echo "Detected folders JSON array: [$folders]"
+          echo "::set-output name=folders::[$folders]"
 
   run-tests:
     needs: detect-folders
@@ -29,7 +28,7 @@ jobs:
 
     strategy:
       matrix:
-        folder: [ ${{ fromJson('["' + needs.detect-folders.outputs.folders.replace(',', '","') + '"]') }} ]
+        folder: ${{ fromJson(needs.detect-folders.outputs.folders) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +46,6 @@ jobs:
       - name: Run Playwright tests in ${{ matrix.folder }}
         run: |
           npx playwright test ${{ matrix.folder }}
-          # Mover reporte para que no se sobrescriba
           folder_name=$(basename ${{ matrix.folder }})
           mv playwright-report playwright-report-$folder_name || true
 
