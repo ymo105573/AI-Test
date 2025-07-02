@@ -17,10 +17,10 @@ jobs:
       - name: Detect test folders
         id: set-matrix
         run: |
-          # Encuentra carpetas en tests/ y genera JSON válido
+          # Detectar carpetas en tests/ y convertir en JSON array
           folders=$(find tests -mindepth 1 -maxdepth 1 -type d | sed 's/^/"/; s/$/"/' | paste -sd, -)
           echo "Detected folders JSON array: [$folders]"
-          echo "::set-output name=folders::[$folders]"
+          echo "folders=[$folders]" >> "$GITHUB_OUTPUT"
 
   run-tests:
     needs: detect-folders
