@@ -14,9 +14,9 @@ test.describe('E1-HU1: Autenticación de usuario', () => {
     await expect(page.getByText(/valid email address|correo electr[oó]nico v[aá]lido/i)).toBeVisible();
 
     // Email válido
-    await page.getByRole('textbox', { name: /email/i }).fill('test@test.com');
+    await page.getByRole('textbox', { name: /email/i }).fill('yannia@businessone.cw');
     await page.getByRole('button', { name: /request/i }).click();
-    await expect(page.getByText(/you will receive a password reset email|recibir[aá]s un correo/i)).toBeVisible();
+    await expect(page.getByText(/We have sent an email to yannia@businessone.cw with instructions on how to reset your password if we found an account associdated with this email address./i)).toBeVisible();
 
     // Volver a login
     await page.getByRole('link', { name: /back to sign in|volver/i }).click();

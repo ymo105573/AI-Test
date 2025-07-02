@@ -9,7 +9,7 @@ test.describe('E1-HU1: Autenticación de usuario', () => {
     await page.getByRole('textbox', { name: 'Password' }).fill('qwerrrr');
     await page.getByRole('button', { name: 'Sign in' }).click();
     // Validar mensaje de error exacto
-    await expect(page.getByText('Invalid email or password')).toBeVisible();
+    await expect(page.getByText('Sign in attempt failed')).toBeVisible();
   });
 
 
