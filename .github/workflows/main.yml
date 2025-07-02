@@ -18,13 +18,11 @@ jobs:
         id: set-matrix
         run: |
           folders=$(find tests -mindepth 1 -maxdepth 1 -type d | sed 's/^/"/; s/$/"/' | paste -sd, -)
-          echo "Detected folders JSON array: [$folders]"
           echo "folders=[$folders]" >> "$GITHUB_OUTPUT"
 
   run-tests:
     needs: detect-folders
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         folder: ${{ fromJson(needs.detect-folders.outputs.folders) }}
@@ -43,22 +41,28 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests in ${{ matrix.folder }}
+        id: run
         run: |
           folder="${{ matrix.folder }}"
+          # Extraemos sólo el nombre de la carpeta (basename)
+          folderName=$(basename "$folder")
+          echo "folderName=$folderName" >> "$GITHUB_OUTPUT"
+
           echo "Checking for test files in $folder..."
           count=$(find "$folder" -type f \( -name "*.spec.ts" -o -name "*.spec.js" \) | wc -l)
           echo "Found $count test files"
           if [ "$count" -gt 0 ]; then
             npx playwright test "$folder"
-            mv playwright-report "playwright-report-$(basename $folder)" || true
+            # Renombramos el reporte con ese basename
+            mv playwright-report "playwright-report-$folderName" || true
           else
             echo "⚠️ No test files found in $folder. Skipping tests."
           fi
 
-      - name: Upload report for ${{ matrix.folder }}
+      - name: Upload report for ${{ steps.run.outputs.folderName }}
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: report-${{ matrix.folder }}
-          path: playwright-report-${{ matrix.folder }}
+          name: report-${{ steps.run.outputs.folderName }}
+          path: playwright-report-${{ steps.run.outputs.folderName }}
           retention-days: 30
