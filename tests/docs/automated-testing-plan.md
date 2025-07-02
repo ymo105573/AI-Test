@@ -1,0 +1,123 @@
+# 🧪 Automated Testing Plan
+
+**Project:** [Project Name]  
+**QA Responsible:** [Responsible Name]  
+**Automation Stack:** Playwright + MCP + GitHub Copilot + VS Code  
+**Start Date:** [dd-mm-yyyy]  
+
+---
+
+## 🎯 Objective
+
+Automate the critical flows of the web application to validate key functionalities, minimize manual errors, and ensure stability in every release.
+
+---
+
+## 🛠️ Tools
+
+| Tool                | Purpose                                      |
+|---------------------|----------------------------------------------|
+| Playwright          | E2E test automation                          |
+| MCP Server          | AI assistant for script generation           |
+| GitHub Copilot      | AI code suggestions in VS Code               |
+| VS Code Insiders    | Development environment                      |
+| GitHub              | Version control and documentation            |
+
+---
+
+## 🔧 Technical Setup
+
+- [x] Playwright installed (`npx playwright install`)
+- [x] MCP configured (`@playwright/mcp`)
+- [x] Codegen active (`npx playwright codegen`)
+- [x] Videos enabled (`video: 'on'`)
+- [x] Scripts organized by module and flow
+- [x] Documentation linked to each test
+
+---
+
+## 🧩 Folder Structure
+
+```
+tests/
+├── docs/
+│   ├── automated-testing-plan.md
+│   ├── user-history.md
+│   └── checklist-cases.md
+├── e2-Orders/
+│   ├── README.md
+│   ├── tc1.1-create-empty-order.spec.ts
+│   ├── tc1.2-change-order-name.spec.ts
+│   ├── tc1.3-save-order-as-list.spec.ts
+│   ├── tc1.4-cancel-order.spec.ts
+│   ├── tc1.5-restore-discarded-order.spec.ts
+│   ├── tc1.6-view-status-history.spec.ts
+│   ├── add-product-by-search-field.spec.ts
+│   ├── add-product-by-category.spec.ts
+│   ├── add-product-by-starred.spec.ts
+│   ├── add-product-by-saved-lists.spec.ts
+│   ├── add-product-by-history-orders.spec.ts
+│   └── [other test scripts]
+├── e1-security-permissions/
+│   ├── README.md
+│   ├── login-success.spec.ts
+│   ├── login-failure.spec.ts
+│   ├── password-recovery.spec.ts
+│   └── logout.spec.ts
+└── .github/
+    └── workflows/test.yml (optional CI)
+```
+
+---
+
+## 🧪 Prioritized Test Cases
+
+| ID                                | Module                | User Story | Priority | Status         |
+|------------------------------------|-----------------------|------------|----------|---------------|
+| tc1.1-create-empty-order           | Orders                | US1        | High     | 🟡 In progress |
+| tc1.2-change-order-name            | Orders                | US1        | High     | 🔴 Pending     |
+| tc1.3-save-order-as-list           | Orders                | US1        | Medium   | 🔴 Pending     |
+| tc1.4-cancel-order                 | Orders                | US1        | High     | 🔴 Pending     |
+| tc1.5-restore-discarded-order      | Orders                | US1        | Medium   | 🔴 Pending     |
+| tc1.6-view-status-history          | Orders                | US1        | Medium   | 🔴 Pending     |
+| add-product-by-search-field        | Orders                | US1        | High     | 🟢 Passed      |
+| add-product-by-category            | Orders                | US1        | High     | 🟢 Passed      |
+| add-product-by-starred             | Orders                | US1        | Medium   | 🟢 Passed      |
+| add-product-by-saved-lists         | Orders                | US1        | Medium   | 🟢 Passed      |
+| add-product-by-history-orders      | Orders                | US1        | Medium   | 🟢 Passed      |
+| login-success                      | Security & Permissions| US2        | High     | 🟢 Passed      |
+| login-failure                      | Security & Permissions| US2        | Medium   | 🟢 Passed      |
+| password-recovery                  | Security & Permissions| US2        | Medium   | 🔴 Pending     |
+| logout                             | Security & Permissions| US2        | Medium   | 🔴 Pending     |
+
+---
+
+## 📌 Success Criteria
+
+- [x] Scripts run successfully without failures
+- [x] Coverage of critical cases (login, orders, approval)
+- [x] Videos generated and stored for each flow
+- [x] Readable documentation traceable to user stories
+- [x] Script validation in staging environment
+
+---
+
+## 🔄 Maintenance
+
+- [x] Update scripts upon functional changes
+- [x] Review flows weekly
+- [x] Automate execution with GitHub Actions (optional)
+- [x] Validate consistency with AI (Copilot + GPT)
+
+---
+
+## 📎 Notes
+
+- This plan is adjusted based on new epics, critical bugs, or scope changes.
+- User stories must include clear acceptance criteria and a functional validation checklist.
+- Each script must be linked to its test case and corresponding user story for traceability.
+
+---
+
+📁 Document generated by: **Yannia More**  
+📅 Last updated: `[02-07-2025]`
