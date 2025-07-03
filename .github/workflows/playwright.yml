@@ -49,7 +49,7 @@ jobs:
 
           echo "🧪 Running tests in $folder"
           # Ejecuta tests y genera siempre 'playwright-report' en la raíz
-          npx playwright test "$folder" --reporter=list,html --retries=0 || true
+          npx playwright test "$folder" --reporter=list,html,json --retries=0 || true
           # npx playwright test "$folder" --reporter=list,html,json=playwright-report/results.json --retries=0 || true
 
 
