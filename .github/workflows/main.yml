@@ -1,10 +1,14 @@
 name: Playwright Tests by Dynamic Folder 1.0
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  # push:
+   #  branches: [ main, master ]
+  # pull_request:
+   #  branches: [ main, master ]
+
+  workflow_dispatch:   # ← dispara solo cuando lo lanzas manualmente desde la UI de GitHub Actions
+  # schedule:          # ← opcional: si quieres ejecutarlo automáticamente en horarios fijos
+  #   - cron: '0 0 * * *'  # cada día a medianoche, por ejemplo
 
 jobs:
   detect-folders:
