@@ -68,3 +68,17 @@ jobs:
           name: report-${{ steps.run.outputs.folderName }}
           path: playwright-report-${{ steps.run.outputs.folderName }}
           retention-days: 30
+      - name: Send results.json to n8n webhook
+        if: ${{ always() }}
+        run: |
+          folder="${{ matrix.folder }}"
+          folderName=$(basename "$folder")
+          REPORT_DIR="playwright-report-${folderName}"
+
+          if [ -f "$REPORT_DIR/results.json" ]; then
+            curl -X POST https://testscript.app.n8n.cloud/webhook/playwright-results \
+              -H "Content-Type: application/json" \
+              --data-binary @"$REPORT_DIR/results.json"
+          else
+            echo "No results.json found in $REPORT_DIR"
+          fi
