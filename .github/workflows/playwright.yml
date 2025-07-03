@@ -1,7 +1,7 @@
 name: Playwright Tests by Dynamic Folder 1.0
 
 on:
-  workflow_dispatch:   # ← solo manual desde Actions
+  workflow_dispatch:   # ← sólo manual
 
 jobs:
   detect-folders:
@@ -9,17 +9,14 @@ jobs:
     outputs:
       folders: ${{ steps.set-matrix.outputs.folders }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Detect test folders
         id: set-matrix
         run: |
-          # Busca subcarpetas directas bajo tests/
           folders=$(find tests -mindepth 1 -maxdepth 1 -type d \
             | sed 's/^/"/; s/$/"/' \
             | paste -sd, -)
-          echo "Detected folders JSON array: [$folders]"
           echo "folders=[$folders]" >> "$GITHUB_OUTPUT"
 
   run-tests:
@@ -29,11 +26,8 @@ jobs:
       matrix:
         folder: ${{ fromJson(needs.detect-folders.outputs.folders) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
@@ -50,25 +44,15 @@ jobs:
           folderName=$(basename "$folder")
           echo "folderName=$folderName" >> "$GITHUB_OUTPUT"
 
-          # Vamos dentro de la carpeta para que el reporte se genere ahí
-          pushd "$folder"
-            echo "Running tests in folder: $folder"
-            # Ejecuta tests, no aborta el script si fallan
-            npx playwright test --reporter=list,html || true
-            # Renombra el reporte para que sea único
-            if [ -d "playwright-report" ]; then
-              mv playwright-report "../playwright-report-${folderName}"
-            else
-              echo "⚠️ No se encontró playwright-report en $folder"
-            fi
-          popd
+          echo "🧪 Running tests in $folder"
+          # El html reporter genera playwright-report-<folderName> en el root
+          npx playwright test "$folder" \
+            --reporter=list,html=playwright-report-${folderName} || true
 
-      - name: Debug directory structure
+      - name: Debug report directories
         run: |
-          echo "=== Raíz del workspace ==="
-          ls -R .
-          echo "=== Reportes generados en root ==="
-          ls -la playwright-report-* || echo "No hay reportes renombrados aún"
+          echo "=== Reports in workspace root ==="
+          ls -d playwright-report-* || echo "No se encontraron reportes"
 
       - name: Upload report for ${{ steps.run.outputs.folderName }}
         if: ${{ always() }}
