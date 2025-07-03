@@ -1,7 +1,7 @@
 name: Playwright Tests by Dynamic Folder 1.0
 
 on:
-  workflow_dispatch:   # ← sólo manual
+  workflow_dispatch:   # ← solo manual
 
 jobs:
   detect-folders:
@@ -14,6 +14,7 @@ jobs:
       - name: Detect test folders
         id: set-matrix
         run: |
+          # Detecta carpetas de primer nivel bajo tests/
           folders=$(find tests -mindepth 1 -maxdepth 1 -type d \
             | sed 's/^/"/; s/$/"/' \
             | paste -sd, -)
@@ -25,8 +26,10 @@ jobs:
     strategy:
       matrix:
         folder: ${{ fromJson(needs.detect-folders.outputs.folders) }}
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -45,9 +48,13 @@ jobs:
           echo "folderName=$folderName" >> "$GITHUB_OUTPUT"
 
           echo "🧪 Running tests in $folder"
-          # El html reporter genera playwright-report-<folderName> en el root
-          npx playwright test "$folder" \
-            --reporter=list,html=playwright-report-${folderName} || true
+          # Ejecuta tests y genera siempre 'playwright-report' en la raíz
+          npx playwright test "$folder" --reporter=list,html || true
+
+          # Si existe el reporte, lo renombra para distinguir carpetas
+          if [ -d "playwright-report" ]; then
+            mv playwright-report "playwright-report-${folderName}"
+          fi
 
       - name: Debug report directories
         run: |
