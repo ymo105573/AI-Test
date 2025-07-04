@@ -58,7 +58,7 @@ jobs:
           fi
           if [ -f "results.json" ]; then
           echo "📤 Enviando results.json de $folderName a n8n..."
-          curl -X POST https://testscript.app.n8n.cloud/webhook/playwright-results \
+          curl -X POST https://testscript2025.app.n8n.cloud/webhook/testscript \
           -H "Content-Type: application/json" \
           --data-binary @results.json
           else
