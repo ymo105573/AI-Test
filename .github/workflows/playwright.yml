@@ -48,14 +48,22 @@ jobs:
           echo "folderName=$folderName" >> "$GITHUB_OUTPUT"
 
           echo "🧪 Running tests in $folder"
+          export PLAYWRIGHT_JSON_OUTPUT_NAME=results.json
           # Ejecuta tests y genera siempre 'playwright-report' en la raíz
-          npx playwright test "$folder" --reporter=list,html --retries=0 || true
-
+          npx playwright test "$folder" --reporter=list,html,json --retries=0 || true
+                 
           # Si existe el reporte, lo renombra para distinguir carpetas
           if [ -d "playwright-report" ]; then
             mv playwright-report "playwright-report-${folderName}"
           fi
-
+          if [ -f "results.json" ]; then
+          echo "📤 Enviando results.json de $folderName a n8n..."
+          curl -X POST https://testscript2025.app.n8n.cloud/webhook/testscript \
+          -H "Content-Type: application/json" \
+          --data-binary @results.json
+          else
+          echo "⚠️ No se encontró results.json"
+          fi
       - name: Debug report directories
         run: |
           echo "=== Reports in workspace root ==="
@@ -68,3 +76,5 @@ jobs:
           name: report-${{ steps.run.outputs.folderName }}
           path: playwright-report-${{ steps.run.outputs.folderName }}
           retention-days: 30
+
+ 
