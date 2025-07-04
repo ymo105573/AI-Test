@@ -56,7 +56,14 @@ jobs:
           if [ -d "playwright-report" ]; then
             mv playwright-report "playwright-report-${folderName}"
           fi
-    
+          if [ -f "results.json" ]; then
+          echo "📤 Enviando results.json de $folderName a n8n..."
+          curl -X POST https://testscript.app.n8n.cloud/webhook/playwright-results \
+          -H "Content-Type: application/json" \
+          --data-binary @results.json
+          else
+          echo "⚠️ No se encontró results.json"
+          fi
       - name: Debug report directories
         run: |
           echo "=== Reports in workspace root ==="
