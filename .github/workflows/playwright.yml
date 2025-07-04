@@ -60,6 +60,8 @@ jobs:
             mv playwright-report "playwright-report-${folderName}"
           fi
           
+          if [ -f "results.json" ]; then mv results.json "playwright-report-${folderName}"
+          fi
 
       - name: Debug report directories
         run: |
