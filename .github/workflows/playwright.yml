@@ -53,10 +53,7 @@ jobs:
           # npx playwright test "$folder" --reporter=list,html,json=results.json --retries=0 || true
 
           # npx playwright test "$folder" --reporter=list,html,json=playwright-report/results.json --retries=0 || true
-              if [ -f "results.json" ]; then 
-              mv results.json playwright-report-${folderName}/
-              fi
-
+         
           # Si existe el reporte, lo renombra para distinguir carpetas
           if [ -d "playwright-report" ]; then
             mv playwright-report "playwright-report-${folderName}"
