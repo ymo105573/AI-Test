@@ -28,7 +28,7 @@ So I can build my order in the most convenient way.
 
 ### Test Cases
 
-**TC1.1:** Create empty order  
+**tc1.1:** Create empty order  
 **Script:** `tc1.1-create-empty-order.spec.ts`  
 Precondition: Authenticated user (buyer role).  
 1. Click "Create order" from:
@@ -47,7 +47,7 @@ Precondition: Authenticated user (buyer role).
    _Returns to the corresponding preview view:_  
    _If created from Browse, it is selected as active in the top menu._
 
-**TC1.2:** Change the order name  
+**tc1.2:** Change the order name  
 **Script:** `tc1.2-change-order-name.spec.ts`  
 Precondition:  
 _ Authenticated user (role Buyer, Manager, or Finance Manager)._  
@@ -65,7 +65,7 @@ _At least one order exists in Draft state._
 3. Modify the name.  
    - When closing the modal, the new name is reflected in all views where the order appears (Open, Sent, History, and Browse).
 
-**TC1.3:** Save the order as a list  
+**tc1.3:** Save the order as a list  
 **Script:** `tc1.3-save-order-as-list.spec.ts`  
 Precondition:  
 _ Authenticated user (buyer role)._  
@@ -82,7 +82,7 @@ _At least one order exists in Draft state._
    - The saved list is created with the items from the order.  
    - The list is available for future orders.
 
-**TC1.4:** Cancel an order  
+**tc1.4:** Cancel an order  
 **Script:** `tc1.4-cancel-order.spec.ts`  
 Precondition:  
 _ Authenticated user (buyer role)._  
@@ -105,7 +105,7 @@ _At least one order exists in an open state (Draft, To manager, or To finance ma
 4. Click the Cancel button  
    - Returns to the order view.
 
-**TC1.5:** Restore discarded order  
+**tc1.5:** Restore discarded order  
 **Script:** `tc1.5-restore-discarded-order.spec.ts`  
 Precondition: The system has displayed the message "Order restored" and the "Undo" option is visible.  
 1. Click the "Undo" button after discarding an order.  
@@ -113,7 +113,7 @@ Precondition: The system has displayed the message "Order restored" and the "Und
    - The deleted order is automatically restored with previous data.  
    - It is shown in the Open orders view.
 
-**TC1.6:** View status history  
+**tc1.6:** View status history  
 **Script:** `tc1.6-view-status-history.spec.ts`  
 Precondition:  
 _ Authenticated user (buyer role)._  
@@ -134,8 +134,8 @@ _At least one order exists with several historical states (e.g., Draft → Pendi
 3. Click to close the modal.  
    - Returns to the previous view.
 
-**TC1.7:** Add a Product Using the Search Function  
-**Script:** `add-product-by-search-field.spec.ts`  
+**tc1.7:** Add product by search field  
+**Script:** `tc1.7-add-product-by-search-field.spec.ts`  
 Precondition:  
 - Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
 - Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.  
@@ -153,8 +153,8 @@ Precondition:
    - “− 1 +”, “Remove”, “Save”, “Add remark” buttons are active.  
    - “Continue to checkout (x items)” is enabled.
 
-**TC1.8:** Add product from Browse by category  
-**Script:** `add-product-by-category.spec.ts`  
+**tc1.8:** Add product by category  
+**Script:** `tc1.8-add-product-by-category.spec.ts`  
 Precondition:  
 - Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
 - Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.  
@@ -170,8 +170,8 @@ Precondition:
    - The product appears in the order's product list, with quantity controls and available actions (“− N +”, “Remove”, “Save”, “Add remark”). N is the quantity.  
    - The “Continue to checkout (x items)” button is enabled if there is at least one product.
 
-**TC1.9:** Add product from Starred  
-**Script:** `add-product-by-starred.spec.ts`  
+**tc1.9:** Add product by starred  
+**Script:** `tc1.9-add-product-by-starred.spec.ts`  
 Precondition:  
 - Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
 - Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.  
@@ -188,8 +188,8 @@ Precondition:
 4. Click the “X” icon to close the Starred panel.  
    - The favorites panel closes and the order view is displayed.
 
-**TC1.10:** Add product from Saved lists  
-**Script:** `add-product-by-saved-lists.spec.ts`  
+**tc1.10:** Add product by saved lists  
+**Script:** `tc1.10-add-product-by-saved-lists.spec.ts`  
 Precondition:  
 - Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
 - Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.  
@@ -210,8 +210,8 @@ Steps:
 5. Click the “X” icon to close the Saved Lists panel.  
    - The saved lists panel closes and the order view is displayed.
 
-**TC1.11:** Add product from History orders  
-**Script:** `add-product-by-history-orders.spec.ts`  
+**tc1.11:** Add product by history orders  
+**Script:** `tc1.11-add-product-by-history-orders.spec.ts`  
 Precondition:  
 - Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
 - Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.  
