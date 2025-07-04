@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 // 3. Verificar que la orden aparece en estado Draft y con mensaje de vacío
 // 4. Regresar a la vista previa
 
-test('TC1.1 - Create empty order', async ({ page }) => {
+test('tc1.1 - Create empty order', async ({ page }) => {
   // Paso 1: Login
   await page.goto('https://in-order.test.nebulaplatform.app/security/sign-in?redirectUri=https://in-order.test.nebulaplatform.app/');
   await page.getByRole('textbox', { name: 'Email address' }).fill('yannia@businessone.cw');
@@ -17,6 +17,7 @@ test('TC1.1 - Create empty order', async ({ page }) => {
 
   // Paso 2: Ir a Orders y crear nueva orden
   await page.goto('https://in-order.test.nebulaplatform.app/order/open');
+  await expect(page.getByRole('button', { name: 'New order' })).toBeVisible({ timeout: 10000 });
   await page.getByRole('button', { name: 'New order' }).click();
 
   // Paso 3: Verificar que se abre el modal de la orden en estado Draft
