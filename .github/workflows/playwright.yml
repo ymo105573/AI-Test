@@ -48,7 +48,7 @@ jobs:
           echo "folderName=$folderName" >> "$GITHUB_OUTPUT"
 
           echo "🧪 Running tests in $folder"
-           export PLAYWRIGHT_JSON_OUTPUT_NAME=results.json
+           
           # Ejecuta tests y genera siempre 'playwright-report' en la raíz
           npx playwright test "$folder" --reporter=list,html,json --retries=0 || true
                  
