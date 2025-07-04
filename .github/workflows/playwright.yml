@@ -49,7 +49,7 @@ jobs:
 
           echo "🧪 Running tests in $folder"
           # Ejecuta tests y genera siempre 'playwright-report' en la raíz
-          npx playwright test "$folder" --reporter=list,html,json=results.json --retries=0 || true
+          npx playwright test "$folder" --reporter=list,html,json --retries=0 || true
           # npx playwright test "$folder" --reporter=list,html,json=results.json --retries=0 || true
  
          
@@ -74,9 +74,15 @@ jobs:
       - name: Send results.json to n8n
         if: ${{ always() }}
         run: |
-          folder="${{ matrix.folder }}"
-          folderName=$(basename "$folder")
-          if [ -f "results.json" ]; then 
-           echo "=== Reports in workspace root ===" else echo "No se encontró results.json en la raíz del workspace"
-           fi
+            folder="${{ matrix.folder }}"
+            folderName=$(basename "$folder")
+
+            if [ -f "results.json" ]; then
+            echo "📤 Enviando results.json de $folderName a n8n..."
+            curl -X POST https://testscript.app.n8n.cloud/webhook/playwright-results \
+            -H "Content-Type: application/json" \
+            --data-binary @results.json
+            else
+            echo "⚠️ No se encontró results.json en la raíz del workspace"
+            fi
 
