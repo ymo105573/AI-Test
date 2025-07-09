@@ -1,12 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { login } from '../utils/auth';
 
-test('TC1.8 – Añadir producto desde Browse by category', async ({ page }) => {
+test('tc1.8 – Añadir producto desde Browse by category', async ({ page }) => {
   // Login
-  await page.goto('https://in-order.test.nebulaplatform.app/security/sign-in?redirectUri=https://in-order.test.nebulaplatform.app/order/open');
-  await page.getByRole('textbox', { name: 'Email address' }).fill('yannia@businessone.cw');
-  await page.getByRole('textbox', { name: 'Password' }).fill('P@ssw0rd');
-  await page.getByRole('button', { name: 'Sign in' }).click();
-
+ await login(page);
   // 1. Click en una orden desde Orders → Open
   await page.getByRole('cell', { name: /Order 00126 Draft/ }).click();
   await expect(page.getByText(/Order 00126 Draft/)).toBeVisible();

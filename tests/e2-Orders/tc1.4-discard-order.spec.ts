@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 import { login } from '../utils/auth';
 import { openOrderOptions } from '../utils/order-helpers';
 
-// TC1.4: Restore an order (Draft, To manager, To finance manager)
+// TC1.4: Discard an order (Draft, To manager, To finance manager)
 
-test('tc1.4 - Restore an order', async ({ page }) => {
+test('tc1.4 - Discard an order', async ({ page }) => {
     await login(page);
 
       // Step 1: Select an order
@@ -45,13 +45,9 @@ test('tc1.4 - Restore an order', async ({ page }) => {
     // Validar mensaje de éxito y opción Undo
     await expect(page.getByText('Order deleted')).toBeVisible();
     await expect(page.getByText('Undo')).toBeVisible();
-
-      // Hacer click en Undo para restaurar la orden
-    await page.getByText('Undo').click(); 
-
-    // Validar que la orden aparece en la lista
+    // Validar que la orden ya no aparece en la lista
    await page.goto('https://in-order.test.nebulaplatform.app/order/open');
-   await expect(page.locator(`text=${originalName}`)).toBeVisible();
+   await expect(page.locator(`text=${originalName?.trim()}`)).not.toBeVisible();
   
 });
 

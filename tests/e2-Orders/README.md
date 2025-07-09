@@ -65,6 +65,34 @@ _At least one order exists in Draft state._
 3. Modify the name.  
    - When closing the modal, the new name is reflected in all views where the order appears (Open, Sent, History, and Browse).
 
+**tc1.2.1:** Restore original name if left blank
+**Script:** `tc1.2.1-restore-original-name.spec.ts`  
+Precondition:
+- Authenticated user (role Buyer, Manager, or Finance Manager).  
+- At least one order exists in Draft state.
+
+1. Click an order from:  
+   - Orders → Open  
+   - Orders → Sent  
+   - Orders → History  
+   - Browse → top menu → active order selector → Click the order.  
+   - The order is displayed.
+
+2. Click the "Change order name" option.  
+   - A text field with the current order name is enabled.
+
+3. Modify the name (e.g., `"Test QA"`).  
+   - When closing the modal, the new name is reflected in all views where the order appears (Open, Sent, History, and Browse).
+
+4. Click again the "Change order name" option.  
+   - A text field with the current order name is enabled.
+
+5. Leave the field blank.
+
+6. Close the modal (e.g., click outside the field).
+
+- The system restores the original order name (the name the order had before any change) and shows it consistently in all views (Open, Sent, History, and Browse).
+
 **tc1.3:** Save the order as a list  
 **Script:** `tc1.3-save-order-as-list.spec.ts`  
 Precondition:  
@@ -82,7 +110,7 @@ _At least one order exists in Draft state._
    - The saved list is created with the items from the order.  
    - The list is available for future orders.
 
-**tc1.4:** Cancel an order  
+**tc1.4:** Discard an order  
 **Script:** `tc1.4-cancel-order.spec.ts`  
 Precondition:  
 _ Authenticated user (buyer role)._  
@@ -232,5 +260,14 @@ Steps:
 5. Click the “X” icon to close the History orders panel.  
    - The History orders panel closes and the order view is displayed.
 
+**tc1.12:** Submit order validate required fields
+**Script:** `tc1.12-submit-order-validate required fields.spec.ts`  
 
-
+Precondition:  
+- Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
+- Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.
+Steps:  
+1. Click an order from:
+   • Orders → Open  
+   • Browse → top menu → active order selector → Click the order.  
+   - The order is displayed  
