@@ -5,7 +5,7 @@ import { openOrderOptions } from '../utils/order-helpers';
 test('tc1.3 - Restore original name if left blank', async ({ page }) => {
   await login(page);
 
-  // Paso 1: Seleccionar una orden
+  // Step 1: Select an order
   const firstDataRow = page.locator('td.cursor-pointer').first();
   await expect(firstDataRow).toBeVisible();
   const originalName = await firstDataRow.textContent();
@@ -13,10 +13,10 @@ test('tc1.3 - Restore original name if left blank', async ({ page }) => {
   await firstDataRow.click();
   await openOrderOptions(page);
 
-  // Paso 2: Cambiar el nombre
+  // Step 2: Change the name
   // const changeNameOption = page.locator('p.mud-menu-item-text', { hasText: 'Change order name' });
   const options = page.locator('p.mud-menu-item-text');
-  const changeNameOption = options.nth(1); // segunda opción del menú
+  const changeNameOption = options.nth(1); // second option in the menu
   await expect(changeNameOption).toBeVisible();
   await changeNameOption.click();
 
@@ -26,31 +26,29 @@ test('tc1.3 - Restore original name if left blank', async ({ page }) => {
   await page.locator('.mud-grid').click();
   await expect(page.getByText('Nuevo Nombre QA')).toBeVisible();
 
-  // Paso 3: Intentar dejarlo en blanco
+  // Step 3: Try to leave it blank
   await openOrderOptions(page);
   await changeNameOption.click();
   await expect(nameTextbox).toBeVisible();
   await nameTextbox.fill('');
   await page.locator('.mud-grid').click();
 
-  // Paso 4: Validar que se restaura el nombre original o que el sistema no permite dejarlo vacío
-  // Aquí depende de la lógica real de la app
+  // Step 4: Validate that the original name is restored or that the system does not allow it to be left blank
+  // This depends on the actual app logic
   await expect(page.getByText('Nuevo Nombre QA')).not.toBeVisible();
   
-// Suponiendo que el modal está abierto
-const dialogLocator = page.locator('.mud-dialog-container');
+  // Assuming the modal is open
+  const dialogLocator = page.locator('.mud-dialog-container');
 
-// Buscar el heading nivel 6 dentro del diálogo (que corresponde al nombre de la orden)
-const orderNameLocator = dialogLocator.getByRole('heading', { level: 6 }).first();
+  // Find the level 6 heading inside the dialog (corresponds to the order name)
+  const orderNameLocator = dialogLocator.getByRole('heading', { level: 6 }).first();
 
-// Esperar que esté visible
-await expect(orderNameLocator).toBeVisible();
+  // Wait for it to be visible
+  await expect(orderNameLocator).toBeVisible();
 
-// Obtener el texto del nombre de la orden
-const orderNameText = await orderNameLocator.textContent();
+  // Get the order name text
+  const orderNameText = await orderNameLocator.textContent();
 
-// Validar que el nombre no esté vacío ni solo espacios en blanco
-expect(orderNameText?.trim().length).toBeGreaterThan(0);
-
-
+  // Validate that the name is not empty or just spaces
+  expect(orderNameText?.trim().length).toBeGreaterThan(0);
 });

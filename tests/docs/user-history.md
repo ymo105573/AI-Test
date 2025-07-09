@@ -16,22 +16,28 @@ So I can build my order in the most convenient way.
 - AC1.2: The user can add products from any source.
 - AC1.3: The user can remove products from the order.
 - AC1.4: The user can save the order as a list.
+- AC1.5: The user can discard and restore orders.
+- AC1.6: The user can view the status history of an order.
+- AC1.7: The user can submit an order with all required fields completed.
 
 ### Test Case Mapping
 
-| Test Case Script                   | Description                                 | Status    |
-|------------------------------------|---------------------------------------------|-----------|
-| tc1.1-create-empty-order.spec.ts   | Create empty order                          | 🟡 In progress |
-| tc1.2-change-order-name.spec.ts    | Change the order name                       | 🔴 Pending     |
-| tc1.3-save-order-as-list.spec.ts   | Save the order as a list                    | 🔴 Pending     |
-| tc1.4-cancel-order.spec.ts         | Cancel an order                             | 🔴 Pending     |
-| tc1.5-restore-discarded-order.spec.ts | Restore discarded order                   | 🔴 Pending     |
-| tc1.6-view-status-history.spec.ts  | View status history                         | 🔴 Pending     |
-| add-product-by-search-field.spec.ts| Add product using the search function       | 🟢 Passed      |
-| add-product-by-category.spec.ts    | Add product from category tree              | 🟢 Passed      |
-| add-product-by-starred.spec.ts     | Add product from Starred                    | 🟢 Passed      |
-| add-product-by-saved-lists.spec.ts | Add product from Saved Lists                | 🟢 Passed      |
-| add-product-by-history-orders.spec.ts | Add product from History orders           | 🟢 Passed      |
+| Test Case ID                        | Script File                                         | User Story | Status   |
+|--------------------------------------|-----------------------------------------------------|------------|----------|
+| tc1.1-create-empty-order             | e2-Orders/tc1.1-create-empty-order.spec.ts          | US1        | Passed   |
+| tc1.2-change-order-name              | e2-Orders/tc1.2-change-order-name.spec.ts           | US1        | Passed   |
+| tc1.2.1-restore-original-name        | e2-Orders/tc1.2.1-restore-original-name.spec.ts     | US1        | Passed   |
+| tc1.3-save-order-as-list             | e2-Orders/tc1.3-save-order-as-list.spec.ts          | US1        | Passed   |
+| tc1.4-cancel-order                   | e2-Orders/tc1.4-cancel-order.spec.ts                | US1        | Removed  |
+| tc1.4-discard-order                  | e2-Orders/tc1.4-discard-order.spec.ts               | US1        | Passed   |
+| tc1.5-restore-discarded-order        | e2-Orders/tc1.5-restore-discarded-order.spec.ts     | US1        | Passed   |
+| tc1.6-view-status-history            | e2-Orders/tc1.6-view-status-history.spec.ts         | US1        | Passed   |
+| tc1.7-add-product-by-search-field    | e2-Orders/tc1.7-add-product-by-search-field.spec.ts | US1        | Passed   |
+| tc1.8-add-product-by-category        | e2-Orders/tc1.8-add-product-by-category.spec.ts     | US1        | Passed   |
+| tc1.9-add-product-by-starred         | e2-Orders/tc1.9-add-product-by-starred.spec.ts      | US1        | Passed   |
+| tc1.10-add-product-by-saved-lists    | e2-Orders/tc1.10-add-product-by-saved-lists.spec.ts | US1        | Passed   |
+| tc1.11-add-product-by-history-orders | e2-Orders/tc1.11-add-product-by-history-orders.spec.ts | US1     | Passed   |
+| tc1.12-submit-order                  | e2-Orders/tc1.12-submit-order.spec.ts               | US1        | Passed   |
 
 ---
 
@@ -50,12 +56,12 @@ So I can access the system and protect my account.
 
 ### Test Case Mapping
 
-| Test Case Script           | Description                | Status    |
-|---------------------------|----------------------------|-----------|
-| login-success.spec.ts      | Successful login           | 🟢 Passed |
-| login-failure.spec.ts      | Failed login               | 🟢 Passed |
-| password-recovery.spec.ts  | Password recovery          | 🔴 Pending|
-| logout.spec.ts             | Logout                     | 🔴 Pending|
+| Test Case ID           | Script File                                         | User Story | Status    |
+|------------------------|-----------------------------------------------------|------------|-----------|
+| login-success          | e1-security-permissions/login-success.spec.ts        | US2        | Passed    |
+| login-failure          | e1-security-permissions/login-failure.spec.ts        | US2        | Passed    |
+| password-recovery      | e1-security-permissions/password-recovery.spec.ts    | US2        | Pending   |
+| logout                 | e1-security-permissions/logout.spec.ts               | US2        | Pending   |
 
 ---
 
@@ -64,8 +70,9 @@ So I can access the system and protect my account.
 - All test scripts are mapped to their user stories and acceptance criteria.
 - Status is updated as scripts are developed, validated, and maintained.
 - Documentation and scripts are synchronized for full traceability and auditability.
+- Scripts and documentation are aligned with the latest project structure and README files.
 
 ---
 
 📁 Document generated by: **Yannia More**  
-📅 Last updated: `[02-07-2025]`
+📅 Last updated: `[09-07-2025]`

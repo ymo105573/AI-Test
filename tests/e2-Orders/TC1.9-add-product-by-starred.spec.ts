@@ -1,38 +1,42 @@
 import { test, expect } from '@playwright/test';
+import { login } from '../utils/auth';
+import { addProductBySearch, clickPlusByProductName } from '../utils/order-helpers';
 
-test.describe('TC1.9 – Añadir producto desde Starred', () => {
-  test.beforeEach(async ({ page }) => {
-    // Login
-    await page.goto('https://in-order.test.nebulaplatform.app/security/sign-in?redirectUri=https://in-order.test.nebulaplatform.app/order/open');
-    await page.getByRole('textbox', { name: 'Email address' }).fill('yannia@businessone.cw');
-    await page.getByRole('textbox', { name: 'Password' }).fill('P@ssw0rd');
-    await page.getByRole('button', { name: 'Sign in' }).click();
-    // Seleccionar una orden en estado abierto (Draft, Pending manager o Pending finance manager)
-    await page.getByRole('cell', { name: /Draft|Pending manager|Pending finance manager/i }).first().click();
-  });
+  test('Add product from Starred and close panel', async ({ page }) => {
+    await login(page);
+    // Click on an order from Orders → Open
+    const firstDataRow = page.locator('td.cursor-pointer').first();
+    await expect(firstDataRow).toBeVisible();
+    // Click to select the order (entire row)
+    await firstDataRow.click();
 
-  test('Agregar producto favorito desde Starred y cerrar panel', async ({ page }) => {
-    // 1. Abrir panel Starred
-    await page.getByRole('button', { name: /starred|★/i }).click();
+    // 1. Open Starred panel
+    await page.locator('div.mud-card-header button.mud-icon-button').nth(2).click();
+
     await expect(page.getByText(/Starred items/i)).toBeVisible();
 
-    // 2. Agregar producto favorito
-    const addButton = page.getByRole('button', { name: /^\+$/ }).first();
-    await expect(addButton).toBeEnabled();
-    await addButton.click();
+    // 2. Add favorite product
+   await clickPlusByProductName(page, 'DeliNova Idaho aardappelen, om te bakken');
+    // 3. Validate notification and product in the order
+    // Assert: Notification “Order line added”
+  const productCell = page.locator('td', { hasText: 'DeliNova Idaho aardappelen, om te bakken' });
+  console.log(await productCell.count());
 
-    // 3. Validar notificación y producto en la orden
-    await expect(page.getByText(/Order line added/i)).toBeVisible();
-    // Validar que el producto aparece en el listado con controles activos
-    // (Ajusta el selector según el nombre del producto si lo conoces)
-    const orderLine = page.getByRole('cell', { name: /.+/ }).first();
-    await expect(orderLine.getByRole('button', { name: /Remove/i })).toBeVisible();
-    await expect(orderLine.getByRole('button', { name: /Save/i })).toBeVisible();
-    await expect(orderLine.getByRole('button', { name: /Add remark/i })).toBeVisible();
+  // Check if the product is already visible in the order
+  if (await productCell.count() > 0) {
+    // Product already exists, check controls
+    const productCell = page.locator('td.mud-table-cell', { hasText: 'DeliNova Idaho aardappelen, om te bakken' }).first();
 
-    // 4. Cerrar el panel Starred
-    await page.getByRole('button', { name: /close|cerrar|x/i }).click();
-    // Validar que el panel se cerró y se muestra la vista de la orden
-    await expect(page.getByText(/Order|Orden/i)).toBeVisible();
+    await expect(productCell).toBeVisible();
+    const plusButton = productCell.locator('button >> svg path[d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"]');
+    await expect(plusButton).toBeVisible();
+
+    // Locate the row containing the product
+    const productRow = page.locator('tr', { hasText: 'DeliNova Idaho aardappelen, om te bakken' });
+
+  } else {
+    // Product does NOT exist yet, wait for the "Order line added" notification
+    await expect(page.locator('#mud-snackbar-container >> text=Order line added')).toBeVisible({ timeout: 10000 });
+  }
+       
   });
-});

@@ -2,16 +2,15 @@ import { test, expect } from '@playwright/test';
 import { login } from '../utils/auth';
 import { addProductBySearch } from '../utils/order-helpers';
 
-
 test('tc1.7 - Add product by search field', async ({ page }) => {
-  // Paso 1: Login
-  // Paso 1: Login usando helper
+  // Step 1: Login
+  // Step 1: Login using helper
   await login(page);
   const firstDataRow = page.locator('td.cursor-pointer').first();
   await expect(firstDataRow).toBeVisible();
-  // Paso 2: Click para seleccionar la orden (en toda la fila)
+  // Step 2: Click to select the order (entire row)
   await firstDataRow.click();
-  // Paso 3: Agregar producto usando el campo de búsqueda
+  // Step 3: Add product using the search field
   await addProductBySearch(page, 'bea');
   
 });

@@ -92,3 +92,22 @@ const matchingProduct = dropdownItems.filter({ hasText: searchTerm }).first();
   const checkoutBtn = page.getByRole('button', { name: /Continue to checkout \(\d+ items?\)/i });
   await expect(checkoutBtn).toBeEnabled();
 }
+
+export async function clickPlusByProductName(page, productName: string) {
+  // 1. Buscar el botón que tiene el nombre del producto
+  const productRow = page.getByRole('button', { name: productName })
+    .locator('xpath=ancestor::tr | ancestor::div[contains(@class, "mud-table-row")]')
+    .first();
+
+  // 2. Dentro de ese contenedor (fila), buscar el botón que contiene el SVG "+" (path exacto)
+  const plusButton = productRow.locator('button >> svg path[d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"]').first();
+
+  // 3. Verificar que el botón está visible y hacer click
+  await expect(plusButton).toBeVisible();
+  await plusButton.click();
+}
+
+
+
+
+

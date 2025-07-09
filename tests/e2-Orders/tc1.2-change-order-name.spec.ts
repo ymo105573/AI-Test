@@ -3,35 +3,35 @@ import { login } from '../utils/auth';
 import { openOrderOptions} from '../utils/order-helpers';
 
 
-// TC1.2: Cambiar el nombre de la orden
+// TC1.2: Change the order name
 test('tc1.2 - Rename the order', async ({ page }) => {
-  // Paso 1: Login
+  // Step 1: Login
   await login(page);
 
-  // Esperar que haya al menos una fila de datos (la fila 0 es encabezado)
+  // Wait until at least one data row is present (row 0 is header)
   const firstDataRow = page.locator('td.cursor-pointer').first();
   await expect(firstDataRow).toBeVisible();
 
-  // Paso 2: Click para seleccionar la orden (en toda la fila)
+  // Step 2: Click to select the order (entire row)
   await firstDataRow.click();
 
   await openOrderOptions(page);
 
-  // Paso 4: Seleccionar la opción de cambiar el nombre
+  // Step 4: Select the option to change the name
   // const changeNameOption = page.locator('p.mud-menu-item-text', { hasText: 'Change order name' });
   const options = page.locator('p.mud-menu-item-text');
-  const changeNameOption = options.nth(1); // segunda opción del menú
+  const changeNameOption = options.nth(1); // second option in the menu
   await expect(changeNameOption).toBeVisible();
   await changeNameOption.click();
 
-  // Paso 5: Completar el nuevo nombre
+  // Step 5: Fill in the new name
   const nameTextbox = page.getByRole('textbox', { name: 'Order' });
   await nameTextbox.fill('Rename orden QA');
 
-  // Confirmar el cambio cerrando el modal (clic en un espacio vacío)
+  // Confirm the change by closing the modal (click on empty space)
   await page.locator('.mud-grid').click();
 
-  // Paso 6: Validación
+  // Step 6: Validation
   await expect(page.getByText('Rename orden QA')).toBeVisible();
 });
 

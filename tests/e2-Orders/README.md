@@ -195,7 +195,7 @@ Precondition:
 2. Navigate categories and/or → select subcategory → select item  
    - The category header updates as you navigate the tree.  
    - When selecting the item, the notification “Order line added” is displayed if the product did not exist in the order.  
-   - The product appears in the order's product list, with quantity controls and available actions (“− N +”, “Remove”, “Save”, “Add remark”). N is the quantity.  
+   - The product appears in the order's product list, with quantity controls. N is the quantity.  
    - The “Continue to checkout (x items)” button is enabled if there is at least one product.
 
 **tc1.9:** Add product by starred  
@@ -260,14 +260,39 @@ Steps:
 5. Click the “X” icon to close the History orders panel.  
    - The History orders panel closes and the order view is displayed.
 
-**tc1.12:** Submit order validate required fields
-**Script:** `tc1.12-submit-order-validate required fields.spec.ts`  
+**tc1.12:** Submit order
+**Script:** `tc1.12-submit-order.spec.ts`  
 
 Precondition:  
 - Authenticated user with role Buyer, Manager, or Finance Manager (permission to modify the order).  
 - Order in open state (Draft, Pending manager, or Pending finance manager) and open in the view.
+- There is at least one visible order with more than 0 items.
 Steps:  
 1. Click an order from:
    • Orders → Open  
    • Browse → top menu → active order selector → Click the order.  
    - The order is displayed  
+2. Click the "Continue to checkout" button.
+   - The modal with delivery and pickup details appears.
+3. Click the “Submit order” or “Place order” button without filling any fields.
+   - The system displays validation messages, e.g.:
+      “Please fill in all required fields before proceeding with checkout.”
+      “Shipping address is required.”
+      “Delivery date is required.”
+      “Billing address is required.” (if applicable)
+   - The modal stays open, prompting the user to correct the inputs.
+4. Fill in all required fields: 
+    • Select a valid shipping address.
+    • Select a valid delivery date.
+    • Select a billing address.
+5. Click the “Submit order” or “Place order” button again.
+- Expected behavior if all fields are complete:
+- The order is successfully submitted.
+- The order status transitions to the next stage (e.g., “Submitted for review”).
+- A confirmation message appears (e.g., “Order submitted for review, thank you”).
+- Status transition logic:
+   From Draft → To manager
+   From To manager → To finance
+   From To finance → Placed
+
+

@@ -1,0 +1,92 @@
+
+# 🧠 Technical Decisions and Considerations
+
+This document outlines key decisions, constraints, and challenges encountered during the design and implementation of the automated test suite for **InOrder**.
+
+---
+
+## ✅ What Was Automated and Why
+
+The test strategy prioritized the **Order Management** module due to its high business impact and complexity. Covered features include:
+
+- Order creation and renaming
+- Saving/discarding/restoring orders
+- Adding products from various sources (search, categories, starred, saved lists, order history)
+- Status history
+- Checkout flow and required field validation
+
+These features were automated because they:
+
+- Are core to business workflows
+- Involve frequent user interaction and logic branches
+- Are time-consuming to validate manually
+
+> 📝 Note: While order status changes (e.g., Draft → To Manager → To Finance → Placed) are expected, **the automation does not yet verify the status transitions via UI.** That may be delegated to backend validations or future tests.
+
+Additionally, basic flows for authentication (login, logout, password recovery) are included. Utility helpers (`auth.ts`, `order-helpers.ts`) were developed to promote DRY principles.
+
+---
+
+## ⚠️ Challenges and Technical Constraints
+
+### 1. Fragile Selectors
+
+The frontend lacks stable `data-testid` or `id` attributes. Selectors are based on:
+
+- CSS classes (`.cursor-pointer`, `.mud-typography`)
+- Text content (via `getByText` / `getByRole`)
+- Relative DOM position (`nth-child`, etc.)
+
+This means that if the UI design or wording changes, the selectors may break.
+
+**✅ Mitigation:**
+- Centralize all selectors into helpers for maintainability.
+- Request `data-testid` attributes from the frontend team where feasible.
+
+---
+
+### 2. Language-Sensitive Validation Messages
+
+Validation messages shown during checkout vary by language. For example:
+
+**Spanish:**
+- `Se requiere dirección de envío.`
+- `Se requiere fecha de entrega.`
+
+**English:**
+- `Shipping address is required.`
+- `Delivery date is required.`
+
+**❗ Issue:**
+If the environment language changes (e.g., to Dutch), tests fail when expecting specific text.
+
+**✅ Recommended Approach:**
+
+- Lock test environments to a consistent language (`es`, `en`, etc.).
+- Centralize messages in a dictionary for dynamic lookup:
+
+```ts
+const validationMessages = {
+  es: {
+    shipping: 'Se requiere dirección de envío.',
+    deliveryDate: 'Se requiere fecha de entrega.',
+    billing: 'Se requiere dirección de facturación.',
+  },
+  en: {
+    shipping: 'Shipping address is required.',
+    deliveryDate: 'Delivery date is required.',
+    billing: 'Billing address is required.',
+  },
+};
+```
+
+Then, use:
+
+```ts
+await expect(page.getByText(validationMessages[lang].shipping)).toBeVisible();
+```
+
+---
+
+📁 File maintained by: **QA Team – InOrder**  
+📅 Last updated: `09-07-2025`
