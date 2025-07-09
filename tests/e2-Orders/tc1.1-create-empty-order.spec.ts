@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 // 3. Verificar que la orden aparece en estado Draft y con mensaje de vacío
 // 4. Regresar a la vista previa
 
-test('tc1.1 - Create empty order', async ({ page }) => {
+test('TC1.1 - Create empty order', async ({ page }) => {
   // Paso 1: Login
   await page.goto('https://in-order.test.nebulaplatform.app/security/sign-in?redirectUri=https://in-order.test.nebulaplatform.app/');
   await page.getByRole('textbox', { name: 'Email address' }).fill('yannia@businessone.cw');
@@ -17,7 +17,7 @@ test('tc1.1 - Create empty order', async ({ page }) => {
 
   // Paso 2: Ir a Orders y crear nueva orden
   await page.goto('https://in-order.test.nebulaplatform.app/order/open');
-  await expect(page.getByRole('button', { name: 'New order' })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole('button', { name: 'New order' })).toBeVisible();
   await page.getByRole('button', { name: 'New order' }).click();
 
   // Paso 3: Verificar que se abre el modal de la orden en estado Draft
@@ -32,6 +32,11 @@ test('tc1.1 - Create empty order', async ({ page }) => {
   // Puedes agregar más asserts según el nombre, items, last updated, etc.
 
   // Paso 5: Clic en el botón "Atrás" (si aplica)
-  await page.getByRole('button', { name: 'Back' }).click();
+
+    const backButton = page.locator('div.mud-focus-trap-child-container.outline-none div.mud-dialog-content button.mud-icon-button').first();
+
+  await expect(backButton).toBeVisible();
+  await backButton.click();
+  //await page.getByRole('button', { name: 'Back' }).click();
   await expect(page).toHaveURL(/order\/open/);
 });
