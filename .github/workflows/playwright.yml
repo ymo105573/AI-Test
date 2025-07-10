@@ -1,7 +1,10 @@
 name: Playwright Tests by Dynamic Folder 1.0
 
 on:
-  workflow_dispatch:   # ← solo manual
+   workflow_dispatch:   # ← solo manual
+ # schedule: 
+ # - cron: '0 2 * * *'  # Todos los días a las 2:00 AM UTC
+
 
 jobs:
   detect-folders:
