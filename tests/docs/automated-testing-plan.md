@@ -1,7 +1,7 @@
 # 🧪 Automated Testing Plan
 
 **QA Responsible:** [Responsible Name]  
-**Automation Stack:** Playwright + MCP + GitHub Copilot + VS Code  
+**Automation Stack:** Playwright + MCP + GitHub Copilot + VS Code + N8N
 **Start Date:** [dd-mm-yyyy]  
 
 
@@ -169,6 +169,13 @@ tests/
 - [x] Sincronización de documentación y scripts tras cada cambio relevante
 
 ---
+
+
+🔁 Automation with N8N
+- A GitHub Actions workflow is scheduled to automatically run the test suite.
+- If any test fails, an N8N agent detects the error and creates a task in ClickUp with the error details.
+- This helps quickly identify issues and maintain control without manual monitoring.
+
 
 ## 📎 Notes
 
