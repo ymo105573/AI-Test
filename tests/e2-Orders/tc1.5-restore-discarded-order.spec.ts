@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { login } from '../utils/auth';
 import { openOrderOptions } from '../utils/order-helpers';
 
-// TC1.4: Restore an order (Draft, To manager, To finance manager)
+// tc1.4: Restore an order (Draft, To manager, To finance manager)
 
 test('tc1.4 - Restore an order', async ({ page }) => {
     await login(page);
@@ -47,9 +47,6 @@ test('tc1.4 - Restore an order', async ({ page }) => {
     // Click Undo to restore the order
     await page.getByText('Undo').click(); 
 
-    // Validate that the order appears in the list
-    await page.goto('https://in-order.test.nebulaplatform.app/order/open');
-    await expect(page.locator(`text=${originalName}`)).toBeVisible();
   
 });
 

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { login } from '../utils/auth';
 import { addProductBySearch, clickPlusByProductName } from '../utils/order-helpers';
 
-  test('Agregar producto desde History orders y cerrar panel', async ({ page }) => {
+  test('Add product from History orders', async ({ page }) => {
     await login(page);
     // Click on an order from Orders → Open
     const firstDataRow = page.locator('td.cursor-pointer').first();

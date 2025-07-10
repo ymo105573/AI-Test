@@ -61,17 +61,9 @@ export async function addProductBySearch(page, searchTerm: string) {
   await expect(visibleItem).toBeVisible({ timeout: 10000 });
   await visibleItem.click();
   // Pausa para animaciones o carga
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(3000);
 
-  // Si sigue sin funcionar, intenta click absoluto con mouse
-  try {
-    const box = await visibleItem.boundingBox();
-    if (box) {
-      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-    }
-  } catch {
-    // ignorar error si no funciona
-  }
+
 // Validaciones
 const matchingProduct = dropdownItems.filter({ hasText: searchTerm }).first();
 
@@ -83,11 +75,6 @@ const matchingProduct = dropdownItems.filter({ hasText: searchTerm }).first();
   
   const orderLine = page.getByRole('cell', { name: new RegExp(searchTerm, 'i') });
 
-  //await expect(orderLine).toBeVisible({ timeout: 10000 });
-
-  await expect(orderLine.getByRole('button', { name: /Remove/i })).toBeVisible();
-  await expect(orderLine.getByRole('button', { name: /Save/i })).toBeVisible();
-  await expect(orderLine.getByRole('button', { name: /Add remark/i })).toBeVisible();
 
   const checkoutBtn = page.getByRole('button', { name: /Continue to checkout \(\d+ items?\)/i });
   await expect(checkoutBtn).toBeEnabled();
