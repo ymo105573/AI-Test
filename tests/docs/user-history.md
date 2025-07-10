@@ -22,22 +22,22 @@ So I can build my order in the most convenient way.
 
 ### Test Case Mapping
 
-| Test Case ID                        | Script File                                         | User Story | Status   |
-|--------------------------------------|-----------------------------------------------------|------------|----------|
-| tc1.1-create-empty-order             | e2-Orders/tc1.1-create-empty-order.spec.ts          | US1        | Passed   |
-| tc1.2-change-order-name              | e2-Orders/tc1.2-change-order-name.spec.ts           | US1        | Passed   |
-| tc1.2.1-restore-original-name        | e2-Orders/tc1.2.1-restore-original-name.spec.ts     | US1        | Passed   |
-| tc1.3-save-order-as-list             | e2-Orders/tc1.3-save-order-as-list.spec.ts          | US1        | Passed   |
-| tc1.4-cancel-order                   | e2-Orders/tc1.4-cancel-order.spec.ts                | US1        | Removed  |
-| tc1.4-discard-order                  | e2-Orders/tc1.4-discard-order.spec.ts               | US1        | Passed   |
-| tc1.5-restore-discarded-order        | e2-Orders/tc1.5-restore-discarded-order.spec.ts     | US1        | Passed   |
-| tc1.6-view-status-history            | e2-Orders/tc1.6-view-status-history.spec.ts         | US1        | Passed   |
-| tc1.7-add-product-by-search-field    | e2-Orders/tc1.7-add-product-by-search-field.spec.ts | US1        | Passed   |
-| tc1.8-add-product-by-category        | e2-Orders/tc1.8-add-product-by-category.spec.ts     | US1        | Passed   |
-| tc1.9-add-product-by-starred         | e2-Orders/tc1.9-add-product-by-starred.spec.ts      | US1        | Passed   |
-| tc1.10-add-product-by-saved-lists    | e2-Orders/tc1.10-add-product-by-saved-lists.spec.ts | US1        | Passed   |
-| tc1.11-add-product-by-history-orders | e2-Orders/tc1.11-add-product-by-history-orders.spec.ts | US1     | Passed   |
-| tc1.12-submit-order                  | e2-Orders/tc1.12-submit-order.spec.ts               | US1        | Passed   |
+| Test Case ID                        | Script File                                         | User Story |
+|--------------------------------------|-----------------------------------------------------|------------|
+| tc1.1-create-empty-order             | e2-Orders/tc1.1-create-empty-order.spec.ts          | US1        |
+| tc1.2-change-order-name              | e2-Orders/tc1.2-change-order-name.spec.ts           | US1        |
+| tc1.2.1-restore-original-name        | e2-Orders/tc1.2.1-restore-original-name.spec.ts     | US1        |
+| tc1.3-save-order-as-list             | e2-Orders/tc1.3-save-order-as-list.spec.ts          | US1        |
+| tc1.4-cancel-order                   | e2-Orders/tc1.4-cancel-order.spec.ts                | US1        |
+| tc1.4-discard-order                  | e2-Orders/tc1.4-discard-order.spec.ts               | US1        |
+| tc1.5-restore-discarded-order        | e2-Orders/tc1.5-restore-discarded-order.spec.ts     | US1        |
+| tc1.6-view-status-history            | e2-Orders/tc1.6-view-status-history.spec.ts         | US1        |
+| tc1.7-add-product-by-search-field    | e2-Orders/tc1.7-add-product-by-search-field.spec.ts | US1        |
+| tc1.8-add-product-by-category        | e2-Orders/tc1.8-add-product-by-category.spec.ts     | US1        |
+| tc1.9-add-product-by-starred         | e2-Orders/tc1.9-add-product-by-starred.spec.ts      | US1        |
+| tc1.10-add-product-by-saved-lists    | e2-Orders/tc1.10-add-product-by-saved-lists.spec.ts | US1        |
+| tc1.11-add-product-by-history-orders | e2-Orders/tc1.11-add-product-by-history-orders.spec.ts | US1     |
+| tc1.12-submit-order                  | e2-Orders/tc1.12-submit-order.spec.ts               | US1        |
 
 ---
 
@@ -56,12 +56,12 @@ So I can access the system and protect my account.
 
 ### Test Case Mapping
 
-| Test Case ID           | Script File                                         | User Story | Status    |
-|------------------------|-----------------------------------------------------|------------|-----------|
-| login-success          | e1-security-permissions/login-success.spec.ts        | US2        | Passed    |
-| login-failure          | e1-security-permissions/login-failure.spec.ts        | US2        | Passed    |
-| password-recovery      | e1-security-permissions/password-recovery.spec.ts    | US2        | Pending   |
-| logout                 | e1-security-permissions/logout.spec.ts               | US2        | Pending   |
+| Test Case ID           | Script File                                         | User Story |
+|------------------------|-----------------------------------------------------|------------|
+| login-success          | e1-security-permissions/login-success.spec.ts        | US2        |
+| login-failure          | e1-security-permissions/login-failure.spec.ts        | US2        |
+| password-recovery      | e1-security-permissions/password-recovery.spec.ts    | US2        |
+| logout                 | e1-security-permissions/logout.spec.ts               | US2        |
 
 ---
 
@@ -75,4 +75,4 @@ So I can access the system and protect my account.
 ---
 
 📁 Document generated by: **Yannia More**  
-📅 Last updated: `[09-07-2025]`
+📅 Last updated: `[10-07-2025]`
