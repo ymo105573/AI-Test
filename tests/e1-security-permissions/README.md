@@ -45,7 +45,7 @@ So I can access features according to my permissions
 
 ## Test Cases
 
-### TC2.1: Successful login with valid credentials (AC1)
+### tc2.1: Successful login with valid credentials (AC1)
 **Script:** `login-success.spec.ts`  
 _Precondition:_ The user has an active account and knows their credentials.  
 **Steps and expected results:**
@@ -62,7 +62,7 @@ _Precondition:_ The user has an active account and knows their credentials.
 
 ---
 
-### TC2.2: Failed login with invalid credentials (AC2)
+### tc2.2: Failed login with invalid credentials (AC2)
 **Script:** `login-failure.spec.ts`  
 _Precondition:_ The user has an active account.  
 **Steps and expected results:**
@@ -77,7 +77,7 @@ _Precondition:_ The user has an active account.
 
 ---
 
-### TC2.3: Password recovery (AC3)
+### tc2.3: Password recovery (AC3)
 **Script:** `password-recovery.spec.ts`  
 _Precondition:_ The user knows their registered email.  
 **Steps and expected results:**
@@ -96,7 +96,7 @@ _Precondition:_ The user knows their registered email.
 
 ---
 
-### TC2.4: Successful logout (AC4)
+### tc2.4: Successful logout (AC4)
 **Script:** `logout.spec.ts`  
 _Precondition:_ The user is authenticated and on the main screen.  
 **Steps and expected results:**

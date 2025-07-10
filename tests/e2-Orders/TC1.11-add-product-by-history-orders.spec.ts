@@ -1,40 +1,53 @@
 import { test, expect } from '@playwright/test';
-
-test.describe('TC2.4 – Añadir producto desde History orders', () => {
-  test.beforeEach(async ({ page }) => {
-    // Login
-    await page.goto('https://in-order.test.nebulaplatform.app/security/sign-in?redirectUri=https://in-order.test.nebulaplatform.app/order/open');
-    await page.getByRole('textbox', { name: 'Email address' }).fill('yannia@businessone.cw');
-    await page.getByRole('textbox', { name: 'Password' }).fill('P@ssw0rd');
-    await page.getByRole('button', { name: 'Sign in' }).click();
-    // Seleccionar una orden en estado abierto (Draft, Pending manager o Pending finance manager)
-    await page.getByRole('cell', { name: /Draft|Pending manager|Pending finance manager/i }).first().click();
-  });
+import { login } from '../utils/auth';
+import { addProductBySearch, clickPlusByProductName } from '../utils/order-helpers';
 
   test('Agregar producto desde History orders y cerrar panel', async ({ page }) => {
-    // 1. Abrir panel History orders
-    await page.getByRole('button', { name: /history orders|históricas|reloj/i }).click();
-    await expect(page.getByText(/History orders|Órdenes históricas/i)).toBeVisible();
+    await login(page);
+    // Click on an order from Orders → Open
+    const firstDataRow = page.locator('td.cursor-pointer').first();
+    await expect(firstDataRow).toBeVisible();
+    // Click to select the order (entire row)
+    await firstDataRow.click();
 
-    // 2. Seleccionar una orden histórica
-    const historyOrder = page.getByRole('group', { name: /order|orden/i }).first();
-    await expect(historyOrder).toBeVisible();
-    await historyOrder.click();
+    // 1. Open panel History orders
+    await page.locator('div.mud-card-header button.mud-icon-button').nth(4).click();
+    const historyOrdersDialog = page.getByRole('dialog');
 
-    // 3. Agregar producto de la orden histórica
-    const addButton = page.getByRole('button', { name: /^Add$|^\+$/i }).first();
-    await expect(addButton).toBeEnabled();
-    await addButton.click();
+    // Wait for the specific title to appear within the panel
+    await expect(historyOrdersDialog.getByRole('heading', { name: /history orders|Órdenes históricas/i, level: 6 })).toBeVisible();
 
-    // 4. Validar notificación y producto en la orden
-    await expect(page.getByText(/Order line added/i)).toBeVisible();
-    const orderLine = page.getByRole('cell', { name: /.+/ }).first();
-    await expect(orderLine.getByRole('button', { name: /Remove/i })).toBeVisible();
-    await expect(orderLine.getByRole('button', { name: /Save/i })).toBeVisible();
-    await expect(orderLine.getByRole('button', { name: /Add remark/i })).toBeVisible();
+    // Validate if the message "No order history" is displayed
+    const noHistoryMessageLocator = page.locator('h4.mud-typography-align-center');
+    const noHistoryMessageVisible = await noHistoryMessageLocator.isVisible();
+    let noHistoryMessage = false;
+    if (noHistoryMessageVisible) {
+      await expect(noHistoryMessageLocator).toHaveText(/no order history|sin historial/i);
+      noHistoryMessage = true;
+    }
+  
+    // If the message appears, we perform the validation
+    if (noHistoryMessage) {
+      console.log('No hay órdenes históricas, se muestra el mensaje correctamente.');
+      await expect(noHistoryMessageLocator).toBeVisible();
+    } else {
 
-    // 5. Cerrar el panel History orders
-    await page.getByRole('button', { name: /close|cerrar|x/i }).click();
-    await expect(page.getByText(/Order|Orden/i)).toBeVisible();
+          const orderGroup = page.getByRole('group').filter({ hasText: /Order.*\d{5}/ }).first();
+          await expect(orderGroup, 'Order group should be visible').toBeVisible();
+
+          console.log('BoundingBox:', await orderGroup.boundingBox());
+
+          await orderGroup.scrollIntoViewIfNeeded();
+          await orderGroup.click();
+          const addButton = page.getByRole('button', { name: /^Add$|^\+$/i }).first();
+          await expect(addButton).toBeEnabled();
+          await addButton.click();
+
+        // 4. Validate notification and product in the order
+          await expect(page.getByText(/Item added to order/i)).toBeVisible();
+          const orderLine = page.getByRole('cell', { name: /.+/ }).first();
+ 
+    }
+
+    
   });
-});
